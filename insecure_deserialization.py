@@ -1,8 +1,10 @@
 import pickle
 
-def deserialize_data(data):
-    return pickle.loads(data)
+def load_data(serialized_data):
+    # Insecure code: vulnerable to insecure deserialization
+    return pickle.loads(serialized_data)
 
-# Example usage
-data = b"some serialized data"
-deserialized_data = deserialize_data(data)
+if __name__ == "__main__":
+    user_input = input("Enter serialized data: ")
+    data = load_data(user_input)
+    print(data)
