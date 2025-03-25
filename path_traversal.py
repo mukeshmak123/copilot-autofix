@@ -1,4 +1,5 @@
 import os
+import html
 
 from flask import (
     Flask,
@@ -38,6 +39,7 @@ def golem():
     template = None
 
     if session['golem'] is not None:
+        escaped_golem = html.escape(session['golem'])
         template = '''{% % extends "layout.html" % %}
 		{% % block body % %}
 		<h1 > Golem Name < /h1 >
@@ -47,7 +49,7 @@ def golem():
 		< / div >
 		< / div >
 		{% % endblock % %}
-		''' % session['golem']
+		''' % escaped_golem
 
         print
 
