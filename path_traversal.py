@@ -72,7 +72,10 @@ def article():
         page = request.args.get('name', 'article')
         base_path = '/home/golem/articles'
         full_path = os.path.normpath(os.path.join(base_path, page))
+ autofix-high=Severity
+        if not full_path.startswith(base_path):
         if not full_path.startswith(base_path) or '..' in full_path or page.find('flag') >= 0:
+        main
             full_path = os.path.join(base_path, 'notallowed.txt')
     else:
         full_path = os.path.join(base_path, 'article')
