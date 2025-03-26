@@ -68,6 +68,10 @@ def article():
 
     if 'name' in request.args:
         page = request.args.get('name')
+        base_path = '/home/golem/articles'
+        full_path = os.path.normpath(os.path.join(base_path, page))
+        if not full_path.startswith(base_path):
+            full_path = os.path.join(base_path, 'notallowed.txt')
     else:
         page = 'article'
 
@@ -75,7 +79,7 @@ def article():
         page = 'notallowed.txt'
 
     try:
-        template = open('/home/golem/articles/{}'.format(page)).read()
+        template = open(full_path).read()
     except Exception as e:
         template = e
 
