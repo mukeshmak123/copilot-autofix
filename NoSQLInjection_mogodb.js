@@ -62,7 +62,12 @@ router.post('/customers/login', async (req, res) => {
     const db = client.db(config.MONGODB_DB_NAME);
     const customers = db.collection("customers")
 
-    let myobj = { email: req.body.email, password: req.body.password };
+    let email = req.body.email;
+    let password = req.body.password;
+    if (typeof email !== "string" || typeof password !== "string") {
+        return res.status(400).json({ status: "error", message: "Invalid input" });
+    }
+    let myobj = { email: { $eq: email }, password: { $eq: password } };
     customers.findOne(myobj, function (err, result) {
         if (err) throw err;
         db.close();
