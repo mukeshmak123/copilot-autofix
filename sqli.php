@@ -1,24 +1,17 @@
 <?php
 
-require_once('../_helpers/strip.php');
+if (PHP_SAPI === 'cli') {
+    parse_str(implode('&', array_slice($argv, 1)), $_GET);
+}
 
-// this database contains a table with 2 rows
-// This is my first secret (ID = 1)
-// This is my second secret (ID = 2)
-$db = new SQLite3('test.db');
+$file_db = new PDO('sqlite:../database/database.sqlite');
 
-if (strlen($_GET['id']) < 1) {
-  echo 'Usage: ?id=1';
-} else {
-  // don't sanitize user input, making the SQL query vulnerable to
-  // an injection. The query result only returns a row count, making
-  // it blind. It can be exploited based on whether the server
-  // responds with "Yes!" or "No!"
-  $count = $db->querySingle('select count(*) from secrets where id = ' . $_GET['id']);
+if (NULL == $_GET['id']) $_GET['id'] = 1;
 
-  if ($count > 0) {
-    echo 'Yes!';
-  } else {
-    echo 'No!';
-  }
+$sql = 'SELECT * FROM employees WHERE employeeId = ' . $_GET['id'];
+
+foreach ($file_db->query($sql) as $row) {
+    $employee = $row['LastName'] . " - " . $row['Email'] . "\n";
+
+    echo $employee;
 }
