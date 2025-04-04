@@ -1,5 +1,4 @@
 const express = require('express');
-const { URL } = require('url');
 const router = express.Router()
 const request = require('request');
 
@@ -10,14 +9,6 @@ router.post('/downlad-url', (req, res) => {
 });
 
 const downloadURL = (url, onend) => {
-    const allowedDomains = ['example.com', 'another-example.com'];
-    const parsedUrl = new URL(url);
-    
-    if (!allowedDomains.includes(parsedUrl.hostname)) {
-        console.log('Invalid URL domain');
-        return;
-    }
-
     const opts = {
       uri: url,
       method: 'GET',
