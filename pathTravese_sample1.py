@@ -7,7 +7,8 @@ from flask import (
     url_for,
     redirect,
     session,
-    render_template_string
+    render_template_string,
+    escape
 )
 from flask.ext.session import Session
 
@@ -47,7 +48,7 @@ def golem():
 		< / div >
 		< / div >
 		{% % endblock % %}
-		''' % session['golem']
+		''' % escape(session['golem'])
 
         print
 
