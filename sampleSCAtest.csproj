@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.5.22302.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.6" />
   </ItemGroup>
 
 </Project>
