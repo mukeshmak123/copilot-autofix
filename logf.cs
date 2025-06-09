@@ -24,7 +24,8 @@ namespace WebFox.Controllers
         [HttpGet("{userInfo}")]
         public void injectLog(string userInfo)
         {
-            _logger.LogError("error!! " + userInfo);
+            string sanitizedUserInfo = userInfo.Replace("\n", "").Replace("\r", "");
+            _logger.LogError("error!! " + sanitizedUserInfo);
         }
     }
 }
