@@ -37,9 +37,8 @@ router.post('/customers/find', async (req, res) => {
     const db = client.db(config.MONGODB_DB_NAME);
     const customers = db.collection("customers")
 
-    let name = req.body.name
+    let name = req.body.name;
     let myobj = { name: { $eq: name } };
-    let myobj = { name: name };
 
     customers.findOne(myobj, function (err, result) {
         if (err) throw err;
@@ -64,7 +63,6 @@ router.post('/customers/login', async (req, res) => {
     const db = client.db(config.MONGODB_DB_NAME);
     const customers = db.collection("customers")
     let myobj = { email: { $eq: req.body.email }, password: { $eq: req.body.password } };
-    let myobj = { email: req.body.email, password: req.body.password };
 
     customers.findOne(myobj, function (err, result) {
         if (err) throw err;
