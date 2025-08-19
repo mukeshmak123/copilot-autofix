@@ -1,3 +1,5 @@
+// this is the sample example for SSRF - demo purpose - not need to fix this but helps to understand how 
+// attaker will by pass the server request forgery 
 const express = require('express');
 const router = express.Router()
 const request = require('request');
