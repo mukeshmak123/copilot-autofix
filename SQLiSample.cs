@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Data.SqlClient;
-// namespace
+
 namespace WebFox.Controllers
 {
     [ApiController]
