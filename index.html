@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="vulnerable.css">
+    <title>Vulnerable</title>
+</head>
+<body>
+   <h1>XSS Vulnerability</h1>
+    <div class="container">
+        <p>Comments</p>
+        <div class="input-field">
+            <textarea rows="10" cols="30" id="input" placeholder="Enter the comment..."></textarea>
+            <input type="submit" id="submit-btn" value="Post">
+        </div>
+        <ul id="comment-box">
+            <li>This site is vulnerable to XSS. Fix the bug 🐞.</li>
+        </ul>
+    </div>
+    <script>
+        var input = document.getElementById("input");
+        var btn = document.getElementById("submit-btn");
+        var container = document.getElementById("comment-box");
+
+        btn.addEventListener("click", function() {
+            var value = input.value;
+            if (value.trim() !== "") {
+                var listItem = document.createElement("li");
+                listItem.innerHTML = value;
+                container.appendChild(listItem);
+                input.value = "";
+            }
+        });
+    </script>
+</body>
+</html>
