@@ -17,7 +17,7 @@ namespace SampleText.Controllers
         {
             var context = this.ControllerContext.HttpContext;
 
-            await context.Response.WriteAsync("<body>"+ userInfo +"</body>");
+            await context.Response.WriteAsync("<body>" + HttpUtility.HtmlEncode(userInfo) + "</body>");
 
         }
     }
