@@ -16,11 +16,21 @@ const validateAndNormalizeUrl = (rawUrl) => {
         return null;
     }
 
-    if (!ALLOWED_HOSTS.has(parsed.hostname)) {
+    const hostname = parsed.hostname.toLowerCase();
+    if (!ALLOWED_HOSTS.has(hostname)) {
         return null;
     }
 
-    return parsed.toString();
+    const safePath = parsed.pathname
+        .split('/')
+        .filter((segment) => segment !== '..')
+        .join('/');
+
+    const normalized = new URL(parsed.protocol + '//' + hostname);
+    normalized.pathname = safePath.startsWith('/') ? safePath : '/' + safePath;
+    normalized.search = parsed.search;
+
+    return normalized.toString();
 };
 
 router.post('/downlad-url', (req, res) => {
