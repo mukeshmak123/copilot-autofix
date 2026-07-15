@@ -3,6 +3,10 @@ const router = express.Router()
 const request = require('request');
 
 const ALLOWED_HOSTS = new Set(['example.com', 'api.example.com']);
+const BASE_URLS = new Map([
+    ['example.com', 'https://example.com'],
+    ['api.example.com', 'https://api.example.com']
+]);
 
 const validateAndNormalizeUrl = (rawUrl) => {
     let parsed;
@@ -16,18 +20,38 @@ const validateAndNormalizeUrl = (rawUrl) => {
         return null;
     }
 
+    if (parsed.username || parsed.password) {
+        return null;
+    }
+
     const hostname = parsed.hostname.toLowerCase();
     if (!ALLOWED_HOSTS.has(hostname)) {
         return null;
     }
 
-    const safePath = parsed.pathname
-        .split('/')
-        .filter((segment) => segment !== '..')
-        .join('/');
+    const safeSegments = [];
+    const segments = parsed.pathname.split('/');
+    for (const segment of segments) {
+        if (!segment) {
+            continue;
+        }
 
-    const normalized = new URL(parsed.protocol + '//' + hostname);
-    normalized.pathname = safePath.startsWith('/') ? safePath : '/' + safePath;
+        let decodedSegment;
+        try {
+            decodedSegment = decodeURIComponent(segment);
+        } catch (e) {
+            return null;
+        }
+
+        if (decodedSegment === '.' || decodedSegment === '..') {
+            return null;
+        }
+
+        safeSegments.push(segment);
+    }
+
+    const normalized = new URL(BASE_URLS.get(hostname));
+    normalized.pathname = '/' + safeSegments.join('/');
     normalized.search = parsed.search;
 
     return normalized.toString();
